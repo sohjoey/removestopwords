@@ -16,42 +16,74 @@ class App extends Component{
       }
 
       this.addText = this.addText.bind(this)
+      this.clearText = this.clearText.bind(this)
       this.updateText = this.updateText.bind(this)
       this.deleteItem = this.deleteItem.bind(this)
+
+      this.loadText()
    };
 
    updateText(e){
-      console.log("update text")
       this.setState({
          inputText: e.target.value
       })
    }
 
+   clearText(e){
+      this.setState({inputText: ""})
+   }
+
    addText(){
+      this.state.inputText = this.state.inputText.trim()
+      if(this.state.inputText.length < 1){
+         return;
+      }
       let txt = this.state.inputText
       let arrSentences = nlp(txt).sentences().data()
       let editedSentences = []
       let _this = this
 
       for(let s of arrSentences){
-         let txtEdited = sw.removeStopwords(s.normal.split(' ')).join(' ')
-         if(txtEdited.trim().length > 0)
-            editedSentences.push({"sentence": txtEdited})
+         let arrTxtEdited = sw.removeStopwords(s.normal.split(' '))
+         if(arrTxtEdited.length){
+            let txtEdited = arrTxtEdited.join(' ')
+            if(txtEdited.trim().length > 0)
+               editedSentences.push({"sentence": txtEdited})
+         }
       }
 
+      if(editedSentences.length){
+         $.ajax({
+            method: "POST",
+            url: "http://localhost:8080/create",
+            data: {arrSentence : editedSentences},
+         }).done(function(result) {
+            for(let s of result.ops){
+               _this.state.data.push({
+                  "id" : s._id,
+                  "value" : s.sentence
+               })
+            }
+            _this.setState({data: _this.state.data})
+            console.log(result)
+         })
+      }
+   }
+
+   loadText(){
+      let _this = this
       $.ajax({
          method: "POST",
-         url: "http://localhost:8080/create",
-         data: {arrSentence : editedSentences},
+         url: "http://localhost:8080/load",
        }).done(function(result) {
-         for(let s of result.ops){
+         for(let s of result){
             _this.state.data.push({
                "id" : s._id,
                "value" : s.sentence
             })
          }
          _this.setState({data: _this.state.data})
-         console.log(result)
+         //console.log(result)
        })
    }
    
@@ -75,10 +107,6 @@ class App extends Component{
       _this.state.data = arr1.concat(arr2)
       _this.setState({data: _this.state.data})
 
-      console.log(`arr1: ${JSON.stringify(arr1)}`)
-      console.log(`arr2: ${JSON.stringify(arr2)}`)
-      console.log(`data: ${JSON.stringify(_this.state.data)}`)      
-
       $.ajax({
          method: "POST",
          url: "http://localhost:8080/delete",
@@ -88,10 +116,6 @@ class App extends Component{
        })
    }
 
-   testFunction() {
-      console.log("testFunction")
-   }
-
    render(){
       return(
          <div>
@@ -99,7 +123,9 @@ class App extends Component{
             <div>
                <Header addTextProp = {this.addText}
                   updateTextProp = {this.updateText}
-                  inputTextProp = {this.state.inputText}>
+                  inputTextProp = {this.state.inputText}
+                  clearTextProp = {this.clearText}
+                  inputText = {this.state.inputText}>
                </Header>
             </div>
             <table>
@@ -126,19 +152,22 @@ class App extends Component{
 
 class Header extends Component {
    render(){
+      let textAreaStyle = {
+         width: "100%"
+      }
+
       return (
          <div>
             Input Text: {this.props.inputTextProp}
             <br/>
-            <textarea type = "text" onChange = {this.props.updateTextProp} multiline = "true" rows = "5"/>
+            <textarea style = {textAreaStyle} type = "text" value = {this.props.inputText} onChange = {this.props.updateTextProp} multiline = "true" rows = "5"/>
             <br/>
             <button onClick = {this.props.addTextProp}>add Text</button>
+            <button onClick = {this.props.clearTextProp}>clear</button>
             <br/>
          </div>)
    }
 }
-
-
 
 class TableRow extends Component {
    render(){
@@ -160,6 +189,7 @@ class TableRow extends Component {
 
       return (
          <tr>
+            <td style = {tdStyle}>{this.props.arrIndex + 1}</td>
             <td style = {tdStyle}>{this.props.param1.value}</td>
             <td style = {tdStyle}><img src = './images/icon.png' style = {itemStyle}
                onClick = {this.props.deleteItem.bind(this,this.props.arrIndex)}></img></td>
