@@ -55,7 +55,9 @@ class App extends Component{
       if(editedSentences.length){
          $.ajax({
             method: "POST",
-            url: "http://localhost:8080/create",
+            url: 'create',
+            //url: window.location.hostname + '/create',
+            //url: "http://localhost:8080/create",
             data: {arrSentence : editedSentences},
          }).done(function(result) {
             for(let s of result.ops){
@@ -74,7 +76,9 @@ class App extends Component{
       let _this = this
       $.ajax({
          method: "POST",
-         url: "http://localhost:8080/load",
+         url: 'load',
+         //url: window.location.hostname + ':' + window.location.port + '/load',
+         //url: "http://localhost:8080/load",
        }).done(function(result) {
          for(let s of result){
             _this.state.data.push({
@@ -109,7 +113,8 @@ class App extends Component{
 
       $.ajax({
          method: "POST",
-         url: "http://localhost:8080/delete",
+         url: 'delete',
+         //url: "http://localhost:8080/delete",
          data: {id: obj.id},
        }).done(function(result) {
          console.log(result)
