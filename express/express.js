@@ -7,7 +7,7 @@ const mongodb = require ('mongodb')
 const MongoClient = require('mongodb').MongoClient
 const cors = require("cors")
 
-let url = 'mongodb://localhost:27017';
+let url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 let dbName = 'project'; 
 let collectionName = 'sentence'
 
