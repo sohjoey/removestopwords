@@ -56,4 +56,4 @@ app.use('/create', cors(corsOption), function (req, res) {
 })
 
 app.use(express.static(distPath))
-app.listen(8080)
+app.listen(process.env.port || 8080)
