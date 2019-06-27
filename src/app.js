@@ -91,8 +91,10 @@ class App extends Component{
       console.log("2")
 
       let _this = this
-      $.ajax({
-         console.log("3")
+      console.log("3")
+      $.ajax(
+         
+         {
          method: "POST",
          url: 'load',
          //url: window.location.hostname + ':' + window.location.port + '/load',
