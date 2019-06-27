@@ -22,7 +22,12 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use('/testPost',cors(corsOption),function(req,res){
   console.log("testPost")
-  res.json('test')
+  console.log(`MONGODB_URI: ${MONGODB_URI}`)
+  //res.json('test')
+  MongoClient.connect(url, function(err, client) {
+    console.log(JSON.stringify(req.body))
+    
+  })
 })
 
 app.use('/delete', cors(corsOption), function (req, res) {

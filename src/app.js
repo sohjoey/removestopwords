@@ -21,6 +21,8 @@ class App extends Component{
       this.deleteItem = this.deleteItem.bind(this)
 
       this.loadText()
+
+      this.testdb()
    };
 
    updateText(e){
@@ -72,35 +74,24 @@ class App extends Component{
       }
    }
 
-   loadText(){
-      console.log(`
-         hostname: ${window.location.hostname}
-         port: ${window.location.port}
-      `)
+   testdb(){
+      let _this = this
       $.ajax({
          method: "POST",
-         url: 'testPost',
-         //url: 'localhost:8080/testPost'
-         //url: window.location.hostname + '/testPost'
-      }).done(function(result) {
-         console.log("test post result")
+         url: 'testPost'
+       }).done(function(result) {
          console.log(result)
-         console.log("1")
-      })
+       })
+   }
 
-      console.log("2")
-
+   loadText(){
       let _this = this
-      console.log("3")
-      $.ajax(
-         
-         {
+      $.ajax({
          method: "POST",
          url: 'load',
          //url: window.location.hostname + ':' + window.location.port + '/load',
          //url: "http://localhost:8080/load",
        }).done(function(result) {
-         console.log("4")
          for(let s of result){
             _this.state.data.push({
                "id" : s._id,
