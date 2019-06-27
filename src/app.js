@@ -85,15 +85,20 @@ class App extends Component{
       }).done(function(result) {
          console.log("test post result")
          console.log(result)
+         console.log("1")
       })
+
+      console.log("2")
 
       let _this = this
       $.ajax({
+         console.log("3")
          method: "POST",
          url: 'load',
          //url: window.location.hostname + ':' + window.location.port + '/load',
          //url: "http://localhost:8080/load",
        }).done(function(result) {
+         console.log("4")
          for(let s of result){
             _this.state.data.push({
                "id" : s._id,
