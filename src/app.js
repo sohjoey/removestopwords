@@ -73,6 +73,20 @@ class App extends Component{
    }
 
    loadText(){
+      console.log(`
+         hostname: ${window.location.hostname}
+         port: ${window.location.port}
+      `)
+      $.ajax({
+         method: "POST",
+         url: 'testPost',
+         //url: 'localhost:8080/testPost'
+         //url: window.location.hostname + '/testPost'
+      }).done(function(result) {
+         console.log("test post result")
+         console.log(result)
+      })
+
       let _this = this
       $.ajax({
          method: "POST",

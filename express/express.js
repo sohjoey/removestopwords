@@ -20,6 +20,11 @@ let corsOption = {
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+app.use('/testPost',cors(corsOption),function(req,res){
+  console.log("testPost")
+  res.json('test')
+})
+
 app.use('/delete', cors(corsOption), function (req, res) {
   MongoClient.connect(url, function(err, client) {
       console.log(JSON.stringify(req.body))
