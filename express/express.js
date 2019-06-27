@@ -29,21 +29,12 @@ app.use('/testPost',cors(corsOption),function(req,res){
     console.log(`url: ${url}`)
     console.log(`err: ${err}`)
     console.log(JSON.stringify(req.body))
-    const db = client.db(dbName);
-    //const collection = db.collection(collectionName);
     
-    const collection = db.collection('documents');
-    // Insert some documents
-    collection.insertMany([
-      {a : 1}, {a : 2}, {a : 3}
-    ], function(err, result) {
-      console.log("Inserted 3 documents into the collection");
-      //res.json(result);
-
-      collection.find({}).toArray(function(err,docs){
-        res.json(docs)
-      })
-    });
+    const db = client.db(dbName)
+    const collection = db.collection(collectionName)
+    collection.find({}).toArray(function(err,docs){
+      res.json(docs)
+    })
   });
 })
 

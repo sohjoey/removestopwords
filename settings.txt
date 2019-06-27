@@ -1,2 +1,4 @@
 database url : 'mongodb://localhost:27017'
 express server : 'localhost:8080' 
+database name = 'heroku_792tmcjw'; 
+database collection name = 'sentence'
