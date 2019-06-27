@@ -29,10 +29,19 @@ app.use('/testPost',cors(corsOption),function(req,res){
     console.log(`err: ${err}`)
     console.log(JSON.stringify(req.body))
     const db = client.db(dbName);
-    const collection = db.collection(collectionName);
-    collection.insertMany([{'sentence':'a'},{'sentence':'b'}], function(err, result) {
-      res.json(result)
-    })
+    //const collection = db.collection(collectionName);
+    
+    const collection = db.collection('documents');
+    // Insert some documents
+    collection.insertMany([
+      {a : 1}, {a : 2}, {a : 3}
+    ], function(err, result) {
+      assert.equal(err, null);
+      assert.equal(3, result.result.n);
+      assert.equal(3, result.ops.length);
+      console.log("Inserted 3 documents into the collection");
+      res.json(result);
+    });
   });
 })
 
