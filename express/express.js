@@ -23,12 +23,17 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/testPost',cors(corsOption),function(req,res){
   console.log("testPost")
   console.log(`url: ${url}`)
-  //res.json('test')
+  
   MongoClient.connect(url, function(err, client) {
     console.log(`url: ${url}`)
     console.log(`err: ${err}`)
-    res.json('test')
-  })
+    console.log(JSON.stringify(req.body))
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
+    collection.insertMany([{'sentence':'a'},{'sentence':'b'}], function(err, result) {
+      res.json(result)
+    })
+  });
 })
 
 app.use('/delete', cors(corsOption), function (req, res) {
