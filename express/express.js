@@ -7,6 +7,7 @@ const mongodb = require ('mongodb')
 const MongoClient = require('mongodb').MongoClient
 const cors = require("cors")
 
+let listenPort = process.env.PORT || 8080
 let url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 let dbName = 'heroku_792tmcjw'; 
 let collectionName = 'sentence'
@@ -14,7 +15,7 @@ let collectionName = 'sentence'
 let distPath = path.join(__dirname, '..', 'dist')
 
 let corsOption = {
-  origin: 'localhost:8080' 
+  origin: 'localhost:' + listenPort  
 }
 
 app.use(express.json())
@@ -82,4 +83,4 @@ app.use('/create', cors(corsOption), function (req, res) {
 })
 
 app.use(express.static(distPath))
-app.listen(process.env.PORT || 8080)
+app.listen(listenPort)

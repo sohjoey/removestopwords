@@ -19,11 +19,8 @@ class App extends Component{
       this.clearText = this.clearText.bind(this)
       this.updateText = this.updateText.bind(this)
       this.deleteItem = this.deleteItem.bind(this)
-/*
-      this.loadText()
-*/
 
-      this.testdb()
+      this.loadText()
    };
 
    updateText(e){
