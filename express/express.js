@@ -37,7 +37,11 @@ app.use('/testPost',cors(corsOption),function(req,res){
       {a : 1}, {a : 2}, {a : 3}
     ], function(err, result) {
       console.log("Inserted 3 documents into the collection");
-      res.json(result);
+      //res.json(result);
+
+      collection.find({}).toArray(function(err,docs){
+        res.json(docs)
+      })
     });
   });
 })
