@@ -22,11 +22,11 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use('/testPost',cors(corsOption),function(req,res){
   console.log("testPost")
-  console.log(`MONGODB_URI: ${MONGODB_URI}`)
+  console.log(`url: ${url}`)
   //res.json('test')
   MongoClient.connect(url, function(err, client) {
-    console.log(JSON.stringify(req.body))
-    
+    console.log(`err: ${err}`)
+    console.log(`client: ${client}`)
   })
 })
 
