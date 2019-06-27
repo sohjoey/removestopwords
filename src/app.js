@@ -198,7 +198,8 @@ class TableRow extends Component {
          borderWidth: "1px",
          borderColor: "lightgray",
          cellPadding: '0px',
-         width: '50%'
+         minWidth: '500px',
+         maxWidth: '80%'
       } 
 
       let tdStyleID = {
@@ -206,16 +207,24 @@ class TableRow extends Component {
          visibility: "hidden"
       }
 
-      let itemStyle = {
+      let iconStyle = {
          width: "10px"
+      };
+
+      let tdIconStyle = {
+         borderStyle: "solid",
+         borderWidth: "1px",
+         borderColor: "lightgray",
+         cellPadding: '0px',
+         width: "12px"
       };
 
       return (
          <tr>
             <td style = {tdStyle}>{this.props.arrIndex + 1}</td>
             <td style = {tdStyleSentence}>{this.props.param1.value}</td>
-            <td style = {tdStyle} onClick = {this.props.deleteItem.bind(this,this.props.arrIndex)}>
-               <img src = './images/icon.png' style = {itemStyle}></img></td>
+            <td style = {tdIconStyle} onClick = {this.props.deleteItem.bind(this,this.props.arrIndex)}>
+               <img src = './images/icon.png' style = {iconStyle}></img></td>
             <td style = {tdStyleID}>id: {this.props.param1.id}</td>
          </tr>
       )
