@@ -8,7 +8,7 @@ const MongoClient = require('mongodb').MongoClient
 const cors = require("cors")
 
 let url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
-let dbName = 'project'; 
+let dbName = 'heroku_792tmcjw'; 
 let collectionName = 'sentence'
 
 let distPath = path.join(__dirname, '..', 'dist')
