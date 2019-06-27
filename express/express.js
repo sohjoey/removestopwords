@@ -27,7 +27,7 @@ app.use('/testPost',cors(corsOption),function(req,res){
   MongoClient.connect(url, function(err, client) {
     console.log(`url: ${url}`)
     console.log(`err: ${err}`)
-    console.log(`client: ${JSON.stringify(client)}`)
+    //console.log(`client: ${JSON.stringify(client)}`)
     res.json('test')
   })
 })
