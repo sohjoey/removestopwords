@@ -22,15 +22,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/testPost',cors(corsOption),function(req,res){
-  console.log(`req: ${req}`)
-  res.json('test post received')
-})
-
-app.use('/testDb',cors(corsOption),function(req,res){
-  console.log("testDb")
+  console.log("testPost")
   console.log(`url: ${url}`)
   
-  MongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
+  MongoClient.connect(url, function(err, client) {
     console.log(`url: ${url}`)
     console.log(`err: ${err}`)
     console.log(JSON.stringify(req.body))
@@ -44,8 +39,8 @@ app.use('/testDb',cors(corsOption),function(req,res){
 })
 
 app.use('/delete', cors(corsOption), function (req, res) {
-  MongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
-      console.log(`req body: ${JSON.stringify(req.body)}`)
+  MongoClient.connect(url, function(err, client) {
+      console.log(JSON.stringify(req.body))
       const db = client.db(dbName);
       const collection = db.collection(collectionName);
       collection.deleteOne({_id : new mongodb.ObjectID(req.body.id)}, function(err, result) {
@@ -56,7 +51,7 @@ app.use('/delete', cors(corsOption), function (req, res) {
 })
 
 app.use('/load',  cors(corsOption), function (req, res) {
-  MongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
+  MongoClient.connect(url, function(err, client) {
     const db = client.db(dbName)
     const collection = db.collection(collectionName)
     collection.find({}).toArray(function(err,docs){
@@ -66,7 +61,7 @@ app.use('/load',  cors(corsOption), function (req, res) {
 })
 
 app.use('/create', cors(corsOption), function (req, res) {
-  MongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
+  MongoClient.connect(url, function(err, client) {
       console.log(JSON.stringify(req.body))
       const db = client.db(dbName);
       const collection = db.collection(collectionName);
