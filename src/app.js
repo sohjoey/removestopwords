@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import nlp from 'compromise';
 import sw from 'stopword';
-import $ from "jquery"
+import qwest from 'qwest';
 
 class App extends Component{
    constructor(){
@@ -39,12 +38,12 @@ class App extends Component{
          return;
       }
       let txt = this.state.inputText
-      let arrSentences = nlp(txt).sentences().data()
+      let arrSentences = txt.split('.')
       let editedSentences = []
       let _this = this
 
       for(let s of arrSentences){
-         let arrTxtEdited = sw.removeStopwords(s.normal.split(' '))
+         let arrTxtEdited = sw.removeStopwords(s.split(' '))
          if(arrTxtEdited.length){
             let txtEdited = arrTxtEdited.join(' ')
             if(txtEdited.trim().length > 0)
@@ -53,43 +52,36 @@ class App extends Component{
       }
 
       if(editedSentences.length){
-         $.ajax({
-            method: "POST",
-            url: 'create',
-            //url: window.location.hostname + '/create',
-            //url: "http://localhost:8080/create",
-            data: {arrSentence : editedSentences},
-         }).done(function(result) {
-            for(let s of result.ops){
-               _this.state.data.push({
-                  "id" : s._id,
-                  "value" : s.sentence
-               })
-            }
-            _this.setState({data: _this.state.data})
-            console.log(result)
-         })
+         qwest.post('create', {arrSentence : editedSentences}).then(
+            function(xhr,result){
+               for(let s of result.ops){
+                  _this.state.data.push({
+                     "id" : s._id,
+                     "value" : s.sentence
+                  })
+               }
+               _this.setState({data: _this.state.data})
+               console.log(result)
+            })
       }
+   }
+
+   testPost(){
+      qwest.post('testPost').then(function(xhr,res){
+         console.log(`res: ${res}`)
+      })
    }
 
    testdb(){
       let _this = this
-      $.ajax({
-         method: "POST",
-         url: 'testPost'
-       }).done(function(result) {
+      qwest.post('testDb').then(function(xhr,result){
          console.log(result)
        })
    }
 
    loadText(){
       let _this = this
-      $.ajax({
-         method: "POST",
-         url: 'load',
-         //url: window.location.hostname + ':' + window.location.port + '/load',
-         //url: "http://localhost:8080/load",
-       }).done(function(result) {
+      qwest.post('load').then(function(xhr,result){
          for(let s of result){
             _this.state.data.push({
                "id" : s._id,
@@ -117,18 +109,12 @@ class App extends Component{
          arr2 = _this.state.data.slice(arrIndex+1)
       }
       
-
       _this.state.data = arr1.concat(arr2)
       _this.setState({data: _this.state.data})
-
-      $.ajax({
-         method: "POST",
-         url: 'delete',
-         //url: "http://localhost:8080/delete",
-         data: {id: obj.id},
-       }).done(function(result) {
+      
+       qwest.post('delete',{id: obj.id}).then(function(xhr,result){
          console.log(result)
-       })
+      })
    }
 
    render(){
@@ -230,4 +216,6 @@ class TableRow extends Component {
       )
    }
 }
+
 export default App;
+

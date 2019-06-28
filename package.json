@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "compromise": "^11.13.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jquery": "^3.4.1",
     "mongodb": "^3.2.7",
+    "qwest": "^4.5.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "stopword": "^0.2.4"
@@ -21,6 +21,7 @@
     "babel-preset-react": "^6.24.1",
     "html-webpack-plugin": "^3.2.0",
     "webpack": "^4.35.0",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.5"
   },
   "scripts": {
@@ -30,7 +31,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "engines":{
+  "engines": {
     "node": "8.11.1"
   }
 }
