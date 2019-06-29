@@ -23,13 +23,18 @@ module.exports = {
             query: {
                presets: ['es2015', 'react']
             }
+         },
+         {
+            test: /\.worker\.js$/,
+            use: { loader: 'worker-loader'}
          }
       ]
    },
    plugins:[
+      /*
       new HtmlWebpackPlugin({
          template: './index.html'
-      }),
+      }),*/
       new BundleAnalyzerPlugin({analyzerMode: 'static'})
    ]
    
